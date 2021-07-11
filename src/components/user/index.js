@@ -9,20 +9,16 @@ export default function UserSection() {
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [existingUser, setExistingUser] = useState();
-  const [updateSuccess, setUpdateSuccess] = useState(false);
-  const [createSuccess, setCreateSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   React.useEffect(() => {
-    getUsers().then((users) => setUsers(users));
+    getUsers()
+      .then((users) => setUsers(users))
+      .catch((error) => setError("Sorry, could not get users"));
   }, []);
 
-  // hide the alerts after 3 seconds
-  React.useEffect(() => {
-    setTimeout(() => {
-      updateSuccess && setUpdateSuccess(false);
-      createSuccess && setCreateSuccess(false);
-    }, 3000);
-  }, [updateSuccess, createSuccess]);
+  console.log("users", users);
+  console.log("message", error);
 
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
@@ -43,11 +39,9 @@ export default function UserSection() {
     if (index === -1) {
       // user does not exist - push user object
       modifiedUserList.push(modifiedUser);
-      setCreateSuccess(true);
     } else {
       // found user - replace user object
       modifiedUserList[index] = modifiedUser;
-      setUpdateSuccess(true);
     }
     setUsers(modifiedUserList);
   };
@@ -63,11 +57,8 @@ export default function UserSection() {
         <h4>Users</h4>
         <Button onClick={handleShowModal}>+ Create User</Button>
       </div>
-      <Alert show={updateSuccess} variant={"success"}>
-        User updated successfully
-      </Alert>
-      <Alert show={createSuccess} variant={"success"}>
-        User created successfully
+      <Alert show={error} variant={"danger"}>
+        {error}
       </Alert>
       <CreateOrEditUser
         showModal={showModal}

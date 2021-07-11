@@ -3,17 +3,12 @@ import axios from "axios";
 axios.defaults.baseURL = baseURL;
 
 export const getUsers = () => {
-  return axios
-    .get("/user_list")
-    .then((response) => {
-      console.log("getUsers", response);
-      if (response.status === 200) {
-        return response.data;
-      }
-    })
-    .catch((error) => {
-      console.log("getUser error", error);
-    });
+  return axios.get("/user_list").then((response) => {
+    console.log("getUsers", response);
+    if (response.status === 200) {
+      return response.data;
+    }
+  });
 };
 
 export const createUser = (userPayload) => {
@@ -21,7 +16,7 @@ export const createUser = (userPayload) => {
     .post("/create_user", userPayload)
     .then((response) => {
       console.log("createUser", response);
-      if (response.status === 200) {
+      if (response.status === 201) {
         return response.data;
       }
     })

@@ -7,6 +7,7 @@ export default function UserList({ users, showUser, deleteUserFromList }) {
   const [deleteSuccess, setDeleteSuccess] = React.useState(false);
   const [deleteFailed, setDeleteFailed] = React.useState(false);
 
+  // hide alert after 3 seconds
   React.useEffect(() => {
     setTimeout(() => {
       deleteSuccess && setDeleteSuccess(false);
